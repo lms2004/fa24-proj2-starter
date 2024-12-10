@@ -14,6 +14,8 @@
 # ==============================================================================
 relu:
     # Prologue
+    blt a1, x0, terminate_with_error
+
     addi t0, a0, 0
     addi t1, x0, 0
     j loop_start
@@ -38,3 +40,8 @@ loop_end:
 
 
     jr ra
+
+terminate_with_error:
+    li a0, 36             # Load error code 36 (exit code) into a0
+    li a7, 10             # Load system call number for exit (10) into a7
+    ecall                 # Make the system call to terminate the program

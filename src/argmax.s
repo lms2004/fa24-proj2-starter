@@ -16,12 +16,12 @@
 # =================================================================
 argmax:
     # Check if the length of the array is less than 1
-    addi t0, x0, 1
-    blt a1, t0, terminate_with_error
+    bge x0, a1, terminate_with_error
+
     mv t0 a0    # arr*
     mv t1 x0    # i
     
-    lw t2 0(t0) # elem
+    lw t2 0(t0) # max
     mv t3 x0    # index
 
 
@@ -39,10 +39,9 @@ loop_continue:
     j loop_start
     
 loop_end:
-    # Epilogue
+    mv a0 t3
 
     jr ra
-
 
 
 terminate_with_error:
