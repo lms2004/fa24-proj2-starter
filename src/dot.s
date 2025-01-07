@@ -66,10 +66,8 @@ loop_end:
 
 terminate_with_error37:
     li a0, 37             # Load error code 37 into a0
-    li a7, 10             # Load system call number for exit (10) into a7
-    ecall                 # Make the system call to terminate the program
+    j exit
 
 terminate_with_error36:
     li a0, 36             # Load error code 36 into a0
-    li a7, 10             # Load system call number for exit (10) into a7
-    ecall                 # Make the system call to terminate the program
+    j exit
