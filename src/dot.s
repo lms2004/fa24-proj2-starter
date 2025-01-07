@@ -17,25 +17,25 @@
 #   - If the stride of either array is less than 1,
 #     this function terminates the program with error code 37
 # =======================================================
+
+
+
 dot:
+    # Prologue
+    addi t0, x0, 1  # 1
+
+    # Check if the stride of the array is less than 1
+    blt a3, t0, terminate_with_error37
+    blt a4, t0, terminate_with_error37
 
     # Check if the length of the array is less than 1
-    mv t5 a0    # arr0*
-    addi t0, x0, 1
-    # Check if the stride of the array is less than 1
-    li a0, 37             # Load error code 37 into a0
-    blt a3, t0, error
-    blt a4, t0, error
+    blt a2, t0, terminate_with_error36
 
-    li a0, 36             # Load error code 37 into a0
-    blt a2, t0, error
-
-
-    mv a0 x0    # sum
-
-    mv t0 t5
+    mv t0 a0    # arr0*
     mv t1 a1    # arr1*
     mv t2 x0    # num
+
+    mv a0 x0    # sum
  
     slli a3 a3 2    # stride*4
     slli a4 a4 2    # stride*4
@@ -54,11 +54,22 @@ loop_start:
 
     blt t2 a2 loop_start
 
+    j loop_end
+
+
+
 loop_end:
     # Epilogue
+
     jr ra
 
 
-error:
+terminate_with_error37:
+    li a0, 37             # Load error code 37 into a0
+    li a7, 10             # Load system call number for exit (10) into a7
+    ecall                 # Make the system call to terminate the program
+
+terminate_with_error36:
+    li a0, 36             # Load error code 36 into a0
     li a7, 10             # Load system call number for exit (10) into a7
     ecall                 # Make the system call to terminate the program
